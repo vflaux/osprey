@@ -66,6 +66,10 @@ func LoadConfig(path string) (*Config, error) {
 		return nil, fmt.Errorf("failed to unmarshal config file %s: %v", path, err)
 	}
 
+	if config.Providers == nil {
+		return nil, fmt.Errorf("invalid config %s: missing providers", path)
+	}
+
 	if config.Providers.Azure != nil {
 		azureConfig := config.Providers.Azure
 		err = azureConfig.ValidateConfig()
